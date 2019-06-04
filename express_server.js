@@ -14,9 +14,17 @@ app.get("/", (req, res) => {
 });
 
 app.get("/urls", (req, res) => {
-    let templateVars = { urls: urlDatabase };
-    res.render("urls_index", templateVars);
+    let templateVars = { urls: urlDatabase }; // key to access urldatabase
+    res.render("urls_index", templateVars); //what is urls and what does this line do???
+    //oh urlsindex creates template and pass object to that templaate???
+    //<% why not template.greeting %>
   });
+
+  app.get("/urls/:shortURL", (req, res) => {
+    let templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL] };
+    res.render("urls_show", templateVars);
+  });
+
 
 app.get("/urls.json", (req, res) => {
     res.json(urlDatabase);
