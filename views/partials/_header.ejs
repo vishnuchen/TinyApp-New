@@ -5,10 +5,17 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
 <a href="/urls"><h1>TinyApp</h1></a> 
-<h2>Hello, <%= username %></h2>
+<h2>Logged in As: <%= username %></h2>
 
 
+<% if (!username) { %>
 <form method="POST" action="/login">
+    <p>username: </p>
     <input class="form-control" type="text" name="username" placeholder="username" style="width: 300px; margin: 1em">
     <button type="submit" class="btn btn-primary">LogIn</button>
 </form>
+<%} else { %>
+<form method="POST" action="/logout">
+    <button type="submit" class="btn btn-primary">Logout</button>
+</form>
+<%} %>

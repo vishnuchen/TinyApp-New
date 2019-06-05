@@ -25,21 +25,21 @@ app.get("/", (req, res) => {
 });
 
 app.get("/urls", (req, res) => {
-  console.log("my cookies", req.cookies)
+  //console.log("my cookies", req.cookies)
     let templateVars = { urls: urlDatabase, username: req.cookies.username};
     res.render("urls_index", templateVars); // displays html in urls_index.ejs
   });
 
   app.get("/urls/new", (req, res) => {
     let templateVars = {username: req.cookies.username };
-    res.render("urls_new");
+    res.render("urls_new", templateVars);
   });
 
   app.post("/urls", (req, res) => {
-    console.log(req.cookies); 
+    //console.log(req.cookies); 
     shortURL = generateRandomString();
     urlDatabase[shortURL] = req.body.longURLInput;
-    console.log('Database after updating', urlDatabase); 
+    //console.log('Database after updating', urlDatabase); 
     res.redirect(`/urls/${shortURL}`);         // Respond with 'Ok' (we will replace this)
   });
 
@@ -58,6 +58,11 @@ app.get("/urls", (req, res) => {
     res.redirect('/urls');         
   });
 
+  app.post("/logout", (req, res) => {
+    res.clearCookie('username');
+    res.redirect('/urls');         
+  });
+
   app.get("/urls/:shortURL", (req, res) => {
     let templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL], username: req.cookies.username};
     res.render("urls_show", templateVars);
@@ -65,8 +70,8 @@ app.get("/urls", (req, res) => {
 
   app.get("/u/:shortURL", (req, res) => {
     const longURL = urlDatabase[req.params.shortURL];//urlDatabase[req.body.shortURL].longURL
-    console.log("My LongURL", longURL)
-    console.log("My Short URL", req.params.shortURL)
+    //console.log("My LongURL", longURL)
+    //console.log("My Short URL", req.params.shortURL)
 
     if (!longURL) {
       res.redirect('/urls')
