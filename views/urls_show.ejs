@@ -5,9 +5,13 @@
 </head>
 <body style="font-size:20px; padding:50px;">
     <!-- Add EJS code here -->
-    <h1>TinyApp</h1>
-    <a href="">Create New TinyURL</a>
+    <!-- <h1>TinyApp</h1> -->
+    <a href="/urls"><h1>TinyApp</h1></a> 
+    <a href="/urls/new">Create New TinyURL</a>
     <p>TinyURL for <%= longURL %></p>
-    <a href=“/u/<%= shortURL %>“><%= shortURL %></a>
+    <a href="/u/<%= shortURL %>"><%= shortURL %></a>
+    <form method="POST" action="/urls/<%=shortURL%>">
+        <input type="text" size="35" name="longURLUpdate"> <button type="submit" class="btn btn-primary">update</button>
+    </form>
 </body>
 </html>

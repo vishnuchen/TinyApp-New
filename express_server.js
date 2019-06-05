@@ -31,11 +31,21 @@ app.get("/urls", (req, res) => {
   });
 
   app.post("/urls", (req, res) => {
-    console.log(req.body);  // Log the POST request body to the console
+    //console.log(req.body);  // Log the POST request body to the console
     shortURL = generateRandomString();
-    urlDatabase[shortURL] = req.body.longURL;
-    //console.log('Database', urlDatabase); 
+    urlDatabase[shortURL] = req.body.longURLInput;
+    console.log('Database after updating', urlDatabase); 
     res.redirect(`/urls/${shortURL}`);         // Respond with 'Ok' (we will replace this)
+  });
+
+  app.post("/urls/:shortURL/delete", (req, res) => {
+    delete urlDatabase[req.params.shortURL];
+    res.redirect('/urls');         
+  });
+
+  app.post("/urls/:shortURL", (req, res) => {
+    urlDatabase[req.params.shortURL] = req.body.longURLUpdate;
+    res.redirect('/urls');         
   });
 
   app.get("/urls/:shortURL", (req, res) => {
@@ -44,9 +54,15 @@ app.get("/urls", (req, res) => {
   });
 
   app.get("/u/:shortURL", (req, res) => {
-    const longURL = urlDatabase[req.body.shortURL].longURL;
-    console.log("my LongURL = ", longURL);
-    res.redirect(longURL);
+    const longURL = urlDatabase[req.params.shortURL];//urlDatabase[req.body.shortURL].longURL
+    console.log("My LongURL", longURL)
+    console.log("My Short URL", req.params.shortURL)
+
+    if (!longURL) {
+      res.redirect('/urls')
+    }
+
+    res.redirect(longURL.includes('http') ? longURL : `http://${longURL}`);
   });//problem is here
 
 app.listen(PORT, () => {

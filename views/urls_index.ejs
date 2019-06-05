@@ -2,15 +2,20 @@
 <html lang="en">
 <head>
     <% include ./partials/_header.ejs %>
+     <!-- Bootstrap CSS -->
+     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 </head>
 <body style="font-size:20px; padding:50px;">
     <!-- Add EJS code here -->
-    <h1>TinyApp</h1>
-    <a href="">Create New TinyURL</a>
+    <a href="/urls"><h1>TinyApp</h1></a>    
+    <a href="/urls/new">Create New TinyURL</a>
     <h3>My URLs</h3>
     <ul>
     <% for (key in urls) { %>
-       <li> <%= key %>: <%= urls[key] %></li>
+       <li> <%= key %>: <%= urls[key] %>
+         <form style="display: inline;" method="GET" action="/urls/<%= key %>"><button type="submit" class="btn btn-primary">Edit</button></form> 
+         <form style="display: inline;" method="POST" action="/urls/<%= key %>/delete"><button type="submit" class="btn btn-primary">Delete</button></form> </br>
+    </li>
     <% }; %>
     </ul>
 </body>
