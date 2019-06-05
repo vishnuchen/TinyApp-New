@@ -59,6 +59,7 @@ app.get("/urls", (req, res) => {
   });
 
   app.post("/logout", (req, res) => {
+    console.log(res.cookies)
     res.clearCookie('username');
     res.redirect('/urls');         
   });
