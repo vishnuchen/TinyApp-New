@@ -19,3 +19,9 @@
     <button type="submit" class="btn btn-primary">Logout</button>
 </form>
 <%} %>
+
+<% if (!username) { %>
+<form  method="POST" action="/register">
+    <button type="submit" class="btn btn-primary">Register</button>
+</form>
+<%} %>
