@@ -23,8 +23,8 @@ const users = {
   },
  "user2RandomID": {
     id: "user2RandomID", 
-    email: "user2@example.com", 
-    password: "dishwasher-funk"
+    email: "vishnu", 
+    password: "123"
   }
 }
 
@@ -39,32 +39,38 @@ app.get("/", (req, res) => {
 
 app.get("/urls", (req, res) => {
   //console.log("my cookies", req.cookies)
-    let templateVars = { urls: urlDatabase, username: req.cookies.username};
+
+    const userId = req.cookies["user_id"];
+    const user = users[userId];
+    //let templateVars = { urls: urlDatabase, username: req.cookies.username};
+    let templateVars = { urls: urlDatabase, user: user};
     res.render("urls_index", templateVars); // displays html in urls_index.ejs
   });
 
   app.get("/urls/new", (req, res) => {
-    let templateVars = {username: req.cookies.username };
+    let templateVars = {user: req.cookies["user_id"]};
     res.render("urls_new", templateVars);
   });
 
   app.get("/register", (req, res) => {
-    let templateVars = {email: req.body.email, password: req.body.passsword};
+    let templateVars = {};
     res.render("urls_register", templateVars);
   });
 
-  app.post("/register", (req, res) => {
-    const newId = generateRandomString();
-    const email = req.body.email;
-    const password = req.body.password;
-    users[newId] = {
-      'id' : newId,
-      'email' : email,
-      'password' : password
-    } 
-      res.cookie('user_id', newId)
-      res.redirect(`/urls`);
+  app.get("/login", (req, res) => {
+    let templateVars = {email: req.body.loginUser, password: req.body.password};
+    res.render("urls_login", templateVars);
   });
+
+  function lookupHelper (email) {
+    for (let lookupUser in users) {
+      //console.log("Testing User already", users[lookupUser].email);
+      if (email === users[lookupUser].email){
+        return true;
+      }
+    }
+  }
+
 
   app.post("/urls", (req, res) => {
     //console.log(req.cookies); 
@@ -84,19 +90,71 @@ app.get("/urls", (req, res) => {
     res.redirect('/urls');         
   });
 
-  app.post("/login", (req, res) => {
-    res.cookie('username', req.body.username);
-    res.redirect('/urls');         
+  app.post("/register", (req, res) => {
+    // console.log("my entered password", req.body.password)
+    // console.log("my entered password", req.body.password === "")
+    // console.log("my entered password", req.body.password === undefined)
+    // console.log("my entered password", typeof req.body.password)
+    if (req.body.email === '') {
+      res.status(400).send('Username empty')
+    }   
+    else if (req.body.password === "") {      
+      res.status(400).send('password empty')
+    }
+    else if (lookupHelper(req.body.email)){
+      res.status(400).send("Username already exists. Try another.");
+    }
+   else 
+    {
+      const newId = generateRandomString();
+      const email = req.body.email;
+      const password = req.body.password;
+        users[newId] = {
+          'id' : newId,
+          'email' : email,
+          'password' : password
+        } 
+      res.cookie('user_id', newId)
+      res.redirect(`/urls`);
+      console.log("My new appended data", users)
+    }
   });
+
+  app.post("/login", (req, res) => {
+
+    const enteredEmail = req.body.loginUser
+    const enteredPswd =  req.body.password
+    let loggedUser;
+    for (let userId in users) {
+      let user = users[userId]
+      console.log("entered user data", user.email)
+        if (user.email === enteredEmail && user.password === enteredPswd) {
+        loggedUser = user;
+        console.log("loggeduser id", loggedUser)       
+        }
+    }
+        
+    if (loggedUser === undefined) {
+      res.status(400).send('User doesnt exist in database, Register!');
+      return;
+    } else {
+      res.cookie('user_id', loggedUser.id);
+      res.redirect('/urls');  
+    }
+
+    
+           
+  });
+
 
   app.post("/logout", (req, res) => {
     console.log(res.cookies)
-    res.clearCookie('username');
+    res.clearCookie('user_id');
     res.redirect('/urls');         
   });
 
   app.get("/urls/:shortURL", (req, res) => {
-    let templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL], username: req.cookies.username};
+    let templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL], user: req.cookies["user_id"]};
     res.render("urls_show", templateVars);
   });
 
