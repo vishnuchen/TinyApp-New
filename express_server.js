@@ -1,5 +1,6 @@
 var express = require("express");
-var cookieParser = require('cookie-parser')
+var cookieParser = require('cookie-parser');
+const bcrypt = require('bcrypt');
 var app = express();
 var PORT = 8080; // default port 8080
 
@@ -114,6 +115,8 @@ app.get("/urls", (req, res) => {
   });
 
   app.post("/urls/:shortURL/delete", (req, res) => {
+    console.log("Before I delete*********", req.params.shortURL);
+    console.log("Before I delete#########", urlDatabase[req.params.shortURL]);
     delete urlDatabase[req.params.shortURL];
     res.redirect('/urls');         
   });
@@ -142,10 +145,11 @@ app.get("/urls", (req, res) => {
       const newId = generateRandomString();
       const email = req.body.email;
       const password = req.body.password;
+      const hashedPassword = bcrypt.hashSync(password, 10);
         users[newId] = {
           'id' : newId,
           'email' : email,
-          'password' : password
+          'password' : hashedPassword
         } 
       res.cookie('user_id', newId)
       res.redirect(`/urls`);
@@ -161,22 +165,31 @@ app.get("/urls", (req, res) => {
     for (let userId in users) {
       let user = users[userId]
       console.log("entered user data", user.email)
-        if (user.email === enteredEmail && user.password === enteredPswd) {
-        loggedUser = user;
-        console.log("loggeduser id", loggedUser)       
+   
+      if (user.email === enteredEmail) {
+        loggedUser = user;      
         }
     }
         
+    // if (loggedUser === undefined) {
+    //   res.status(400).send('User doesnt exist in database, Register!');
+    //   return;
+    // } else {
+    //   res.cookie('user_id', loggedUser.id);
+    //   res.redirect('/urls');  
+    // }  
+    
     if (loggedUser === undefined) {
       res.status(400).send('User doesnt exist in database, Register!');
-      return;
-    } else {
-      res.cookie('user_id', loggedUser.id);
-      res.redirect('/urls');  
+    // } else if (loggedUser.password !== enteredPswd) {
+    } else if (!bcrypt.compareSync(enteredPswd, loggedUser.password)) {
+      res.status(400).send('Incorrect Password! Please try again!');
     }
-
-    
-           
+      else {
+        // res.cookie(‘user_id’, loggedUser.id);
+        res.cookie('user_id', loggedUser.id);
+        res.redirect('/urls');
+      }
   });
 
 

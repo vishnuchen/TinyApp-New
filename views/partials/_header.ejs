@@ -8,24 +8,32 @@
 
 <% if (locals.user) { %>
 <h2>Logged in As: <%= user["email"] %></h2>
-<% } %>
-
-
-<% if (!locals.user) { %>
-<form method="GET" action="/login">
-    <!-- <p>username: </p>
-    <input class="form-control" type="text" name="username" placeholder="username" style="width: 300px; margin: 1em"> -->
-    <button type="submit" class="btn btn-primary">LogIn</button>
-</form>
-<%} else { %>
 <a href="/urls/new">Create New TinyURL</a>
 <form method="POST" action="/logout">
     <button type="submit" class="btn btn-primary">Logout</button>
 </form>
+<%} else { %>
+    <form method="GET" action="/login">
+        <button type="submit" class="btn btn-primary">LogIn</button>
+    </form>
+    <form method="GET" action="/register">
+        <button type="submit" class="btn btn-primary">Register</button>
+    </form>
+<%} %>
+
+<!-- 
+<% if (!locals.user) { %>
+<form method="GET" action="/login">
+    <button type="submit" class="btn btn-primary">LogIn</button>
+</form>
+<form method="GET" action="/login">
+    <button type="submit" class="btn btn-primary">LogIn</button>
+</form>
+
 <%} %>
 
 <% if (!locals.user) { %>
 <form  method="GET" action="/register">
     <button type="submit" class="btn btn-primary">Register</button>
 </form>
-<%} %>
+<%} %> -->
