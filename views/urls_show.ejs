@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <%- include('./partials/_header', { user: user }) %>
+    <%- include ./partials/_header.ejs %>
 </head>
 <body style="font-size:20px; padding:50px;">
     
-    <a href="/urls/new">Create New TinyURL</a>
-    <p>TinyURL for <%= longURL %></p>
+    <!-- <a href="/urls/new">Create New TinyURL</a> -->
+    <p>TinyURL for <%= longURLObj.longURL %></p>
     <a href="/u/<%= shortURL %>"><%= shortURL %></a>
     <form method="POST" action="/urls/<%=shortURL%>">
         <input type="text" size="35" name="longURLUpdate"> <button type="submit" class="btn btn-primary">update</button>
