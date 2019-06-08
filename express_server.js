@@ -43,12 +43,40 @@ const users = {
 // Function to filter URLS as per
 function urlsForUser(id) {
   let filteredUrls = {};
-  for (let url in urlDatabase) {
-    if (urlDatabase[url].userID === id) {
-      filteredUrls[url] = urlDatabase[url]
+  for (let url in urlDfunction lookupHelper (email) {
+  for (let lookupUser in users) {
+    //console.log("Testing User already", users[lookupUser].email);
+    if (email === users[lookupUser].email){
+      return true;
     }
   }
-  return filteredUrls;
+}
+    if (urlDatabase[urfunction lookupHelper (email) {
+  for (let lookupUser in users) {
+    //console.log("Testing User already", users[lookupUser].email);
+    if (email === users[lookupUser].email){
+      return true;
+    }
+  }
+}
+      filteredUrls[urlfunction lookupHelper (email) {
+  for (let lookupUser in users) {
+    //console.log("Testing User already", users[lookupUser].email);
+    if (email === users[lookupUser].email){
+      return true;
+    }
+  }
+}
+    }
+  }
+  return filteredUrls;function lookupHelper (email) {
+  for (let lookupUser in users) {
+    //console.log("Testing User already", users[lookupUser].email);
+    if (email === users[lookupUser].email){
+      return true;
+    }
+  }
+}
 }
 
 function generateRandomString() {
