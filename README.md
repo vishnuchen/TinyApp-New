@@ -1,20 +1,53 @@
-# TinyApp
-TinyApp is a full stack web application built with Node and Express  that allows users to shorten long URLs.
+# Tweeter Project
 
-## Final Product
+Tweeter is a simple single-page application, a clone of Twitter.
 
-When users register/login in TinyApp home page, they are able to create shortened URLs for long URLS. The shortened URLs and their corresponding long URLS are displayed as a list. The users can then update or delete those URLS because edit/delete buttons are provided in the website.
+This app uses HTML, CSS, JS, jQuery and AJAX on the front-end and Node, Express and MongoDB on the back-end. The client-side app communicates with a server via AJAX. Tweets are persisted to MongoDB and survive server restart.
 
 ## Dependencies
 
-- Node.js
+- Node 5.10.x or above
 - Express
-- EJS
-- bcrypt
 - body-parser
-- cookie-session
+- chance
+- md5
+- mongodb
 
 ## Getting Started
 
-- Install all dependencies (using the `npm install` command).
-- Run the development web server using the `node express_server.js` command.
+1. Install dependencies using the `npm install` command.
+2. Start the web server using the `npm run local` command. The app will be served at <http://localhost:8080/>.
+3. Go to <http://localhost:8080/> in your browser.
+
+## Screenshots
+
+Tweeter Home Page -
+
+![Tweeter Home Page](https://github.com/vishnuchen/Twitter-New/blob/master/docs/1-home-page.png "Tweeter Home Page")
+
+Compose Button hover -
+
+![Compose Button hover](https://github.com/vishnuchen/Twitter-New/blob/master/docs/2-on-hover-compose-button.png "Compose Button hover")
+
+
+Compose Tweet Page -
+
+![Compose Tweet Page](https://github.com/vishnuchen/Twitter-New/blob/master/docs/3-compose-tweet.png "Compose Tweet Page")
+
+
+No Tweet Error Page -
+
+![No Tweet Error Page](https://github.com/vishnuchen/Twitter-New/blob/master/docs/4-empty-text-submit.png "No Tweet Error Page")
+
+
+Long Tweet Error Page -
+
+![Long Tweet Error Page](https://github.com/vishnuchen/Twitter-New/blob/master/docs/5-more-than-140.png "Long Tweet Error Page")
+
+Correct length tweet -
+
+![Correct length tweet](https://github.com/vishnuchen/Twitter-New/blob/master/docs/6-correct-length.png "Correct length tweet")
+
+successful tweet submission-
+
+![successful tweet submission](https://github.com/vishnuchen/Twitter-New/blob/master/docs/7-tweet-submitted.png "successful tweet submission")
